@@ -1,4 +1,5 @@
-﻿using GenericRepositoryUnitOfWork.DAL.Entities;
+﻿using GenericRepositoryUnitOfWork.Core.MicrosoftIdentity;
+using GenericRepositoryUnitOfWork.DAL.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -17,6 +18,9 @@ namespace GenericRepositoryUnitOfWork.DAL.Context
 
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Department> Departments { get; set; }
+        public DbSet<ApplicationUser> applicationUsers { get; set; }
+
+
 
     }
 }
