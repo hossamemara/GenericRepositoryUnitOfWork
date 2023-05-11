@@ -15,7 +15,6 @@ namespace GenericRepositoryUnitOfWork.Core.DependencyInjection
         {
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddTransient<IMicrosoftIdentity, MicrosoftIdentityService>();
-
             return services;
         }
     }
