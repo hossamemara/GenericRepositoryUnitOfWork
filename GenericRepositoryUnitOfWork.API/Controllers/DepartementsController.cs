@@ -47,7 +47,17 @@ namespace GenericRepositoryUnitOfWork.API.Controllers
                 if (res.Count() == 0)
                     return NotFound("No Data Found For Departements");
                 else
-                    return Ok(res);
+                    return Ok(new ApiResponse<IEnumerable<DepartmentDto>>
+
+                    {
+
+                        StatusCode = 200,
+                        HttpStatusCodes = "Ok",
+                        Message = "Data Retrived",
+                        AffectedRows = res.Count(),
+                        Data = res
+
+                    });
             }
 
             catch (Exception ex)

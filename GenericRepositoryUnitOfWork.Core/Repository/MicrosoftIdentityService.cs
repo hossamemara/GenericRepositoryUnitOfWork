@@ -45,6 +45,30 @@ namespace GenericRepositoryUnitOfWork.Core.Repository
 
         }
 
+        #region SignIn
+
+        #endregion
+        public async Task<SignInResult> SignIn(SignInVM model)
+        {
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            if (user != null)
+            {
+                var password = await _userManager.CheckPasswordAsync(user, model.Password);
+                if (password)
+                {
+                    var userInfo = _signInManager.PasswordSignInAsync(user, model.Password, model.RememberMe, false);
+                    return userInfo.Result;
+                }
+                else
+                    return null;
+            }
+            else
+                return null;
+
+
+
+        }
+
         #endregion
 
     }
