@@ -69,6 +69,11 @@ namespace GenericRepositoryUnitOfWork.Core.Repository
 
         }
 
+        public Task<dynamic> SignOut()
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion
 
     }
