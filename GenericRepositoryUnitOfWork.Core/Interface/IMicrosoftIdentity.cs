@@ -10,10 +10,9 @@ namespace GenericRepositoryUnitOfWork.Core.Interface
 {
     public interface IMicrosoftIdentity
     {
-        Task<IdentityResult> SignUp(SignUpVM model);
+        Task<IdentityResult> SignUpAsync(SignUpVM model);
 
-        Task<SignInResult> SignIn(SignInVM model);
-
-        Task<dynamic> SignOut();
+        Task<SignInResult> SignInAsync(SignInVM model);
+        Task<dynamic> SignOutAsync();
     }
 }

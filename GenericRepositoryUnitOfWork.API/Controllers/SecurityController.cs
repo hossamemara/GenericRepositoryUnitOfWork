@@ -34,7 +34,7 @@ namespace GenericRepositoryUnitOfWork.API.Controllers
         {
             try
             {
-                var res = await _microsoftIdentity.SignUp(model);
+                var res = await _microsoftIdentity.SignUpAsync(model);
                 if (res.Succeeded)
                     return Ok(new ApiResponse<IEnumerable<SignUpVM>>
 
@@ -97,7 +97,7 @@ namespace GenericRepositoryUnitOfWork.API.Controllers
         {
             try
             {
-                var res = await _microsoftIdentity.SignIn(model);
+                var res = await _microsoftIdentity.SignInAsync(model);
                 if(res !=null)
                 {
                     if (res.Succeeded)
@@ -161,6 +161,77 @@ namespace GenericRepositoryUnitOfWork.API.Controllers
 
         #endregion
 
+
+        #region Sign Out
+
+        [HttpGet("SignOut")]
+        public async Task<IActionResult> SignOut()
+        {
+            try
+            {
+                var res = await _microsoftIdentity.SignOutAsync();
+                if (res != null)
+                {
+                    if (res.Succeeded)
+                        return Ok(new ApiResponse<IEnumerable<SignInVM>>
+
+                        {
+
+                            StatusCode = 200,
+                            HttpStatusCodes = "Ok",
+                            Message = "Data Retrived",
+                            AffectedRows = 1,
+                            Data = res
+
+                        });
+                    else
+                        return BadRequest(new ApiResponse<string>
+
+                        {
+
+                            StatusCode = 400,
+                            HttpStatusCodes = "BadRequest",
+                            Message = "Invalid Email or Password",
+                            AffectedRows = 0,
+                            Error = "Invalid Email or Password"
+                        });
+                }
+                else
+                {
+                    return NotFound(new ApiResponse<string>
+
+                    {
+
+                        StatusCode = 404,
+                        HttpStatusCodes = "NotFound",
+                        Message = "Invalid Email or Password",
+                        Error = "Invalid Email or Password",
+                        AffectedRows = 0,
+                    });
+                }
+
+
+            }
+
+            catch (Exception ex)
+            {
+
+                return BadRequest(new ApiResponse<string>
+
+                {
+
+                    StatusCode = 400,
+                    HttpStatusCodes = "BadRequest",
+                    Message = ex.Message,
+                    Error = ex.Message,
+                    AffectedRows = 0
+                });
+            }
+
+
+        }
+
+        #endregion
 
         #endregion
 

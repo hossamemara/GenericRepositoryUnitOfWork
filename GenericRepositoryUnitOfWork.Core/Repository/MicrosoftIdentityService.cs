@@ -30,7 +30,7 @@ namespace GenericRepositoryUnitOfWork.Core.Repository
         #endregion
 
         #region SignUp
-        public async Task<IdentityResult> SignUp(SignUpVM model)
+        public async Task<IdentityResult> SignUpAsync(SignUpVM model)
         {
             var user = new ApplicationUser()
             {
@@ -44,11 +44,10 @@ namespace GenericRepositoryUnitOfWork.Core.Repository
 
 
         }
+        #endregion
 
         #region SignIn
-
-        #endregion
-        public async Task<SignInResult> SignIn(SignInVM model)
+        public async Task<SignInResult> SignInAsync(SignInVM model)
         {
             var user = await _userManager.FindByEmailAsync(model.Email);
             if (user != null)
@@ -68,13 +67,19 @@ namespace GenericRepositoryUnitOfWork.Core.Repository
 
 
         }
+        #endregion
 
-        public Task<dynamic> SignOut()
+        #region SignOutAsync
+        public async Task<dynamic> SignOutAsync()
         {
-            throw new NotImplementedException();
+            await _signInManager.SignOutAsync();
+            return null;
         }
 
         #endregion
+
+
+
 
     }
 }
