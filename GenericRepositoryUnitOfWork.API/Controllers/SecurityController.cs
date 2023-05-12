@@ -34,27 +34,46 @@ namespace GenericRepositoryUnitOfWork.API.Controllers
         {
             try
             {
-                var res = await _microsoftIdentity.SignUpAsync(model);
-                if (res.Succeeded)
-                    return Ok(new ApiResponse<IEnumerable<SignUpVM>>
-
+                if (model.IsAgree == true)
+                {
+                    var res = await _microsoftIdentity.SignUpAsync(model);
+                    if (res.Succeeded)
                     {
+                        return Ok(new ApiResponse<IEnumerable<SignUpVM>>
 
-                        StatusCode = 200,
-                        HttpStatusCodes = "Ok",
-                        Message = "Data Retrived",
-                        AffectedRows = 1,
-                        Data = model
+                        {
 
-                    });
+                            StatusCode = 200,
+                            HttpStatusCodes = "Ok",
+                            Message = "Data Retrived",
+                            AffectedRows = 1,
+                            Data = model
+
+                        });
+                    }
+                    else
+                    {
+                        var errors = new List<string> { };
+                        foreach (var error in res.Errors)
+                        {
+                            errors.Add(error.Description);
+
+                        }
+                        return BadRequest(new ApiResponse<string>
+
+                        {
+
+
+                            StatusCode = 400,
+                            HttpStatusCodes = "BadRequest",
+                            Message = "Sign Up Failed",
+                            AffectedRows = 0,
+                            Error = errors
+                        });
+                    }
+                }
                 else
                 {
-                    var errors = new List<string> { };
-                    foreach (var error in res.Errors)
-                    {
-                        errors.Add(error.Description);
-                        
-                    }
                     return BadRequest(new ApiResponse<string>
 
                     {
@@ -62,11 +81,12 @@ namespace GenericRepositoryUnitOfWork.API.Controllers
 
                         StatusCode = 400,
                         HttpStatusCodes = "BadRequest",
-                        Message = "Sign Up Failed",
+                        Message = "Please Agree Sign Up Terms",
                         AffectedRows = 0,
-                        Error = errors
+                        Error = "Please Agree Sign Up Terms"
                     });
                 }
+                
                     
             }
 
