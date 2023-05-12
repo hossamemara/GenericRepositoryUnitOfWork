@@ -29,8 +29,8 @@ namespace GenericRepositoryUnitOfWork.API.Controllers
 
         #region SignUp
 
-        [HttpPost("SignUp")]
-        public async Task<IActionResult> SignUp(SignUpVM model)
+        [HttpPost("SignUpAsync")]
+        public async Task<IActionResult> SignUpAsync(SignUpVM model)
         {
             try
             {
@@ -92,8 +92,8 @@ namespace GenericRepositoryUnitOfWork.API.Controllers
 
         #region SignIn
 
-        [HttpPost("SignIn")]
-        public async Task<IActionResult> SignIn(SignInVM model)
+        [HttpPost("SignInAsync")]
+        public async Task<IActionResult> SignInAsync(SignInVM model)
         {
             try
             {
@@ -164,51 +164,22 @@ namespace GenericRepositoryUnitOfWork.API.Controllers
 
         #region Sign Out
 
-        [HttpGet("SignOut")]
-        public async Task<IActionResult> SignOut()
+        [HttpGet("SignOutAsync")]
+        public async Task<IActionResult> SignOutAsync()
         {
             try
             {
-                var res = await _microsoftIdentity.SignOutAsync();
-                if (res != null)
+                await _microsoftIdentity.SignOutAsync();
+                return Ok(new ApiResponse<IEnumerable<SignInVM>>
+
                 {
-                    if (res.Succeeded)
-                        return Ok(new ApiResponse<IEnumerable<SignInVM>>
 
-                        {
+                    StatusCode = 200,
+                    HttpStatusCodes = "Ok",
+                    Message = "Data Retrived",
+                    AffectedRows = 1
 
-                            StatusCode = 200,
-                            HttpStatusCodes = "Ok",
-                            Message = "Data Retrived",
-                            AffectedRows = 1,
-                            Data = res
-
-                        });
-                    else
-                        return BadRequest(new ApiResponse<string>
-
-                        {
-
-                            StatusCode = 400,
-                            HttpStatusCodes = "BadRequest",
-                            Message = "Invalid Email or Password",
-                            AffectedRows = 0,
-                            Error = "Invalid Email or Password"
-                        });
-                }
-                else
-                {
-                    return NotFound(new ApiResponse<string>
-
-                    {
-
-                        StatusCode = 404,
-                        HttpStatusCodes = "NotFound",
-                        Message = "Invalid Email or Password",
-                        Error = "Invalid Email or Password",
-                        AffectedRows = 0,
-                    });
-                }
+                });
 
 
             }

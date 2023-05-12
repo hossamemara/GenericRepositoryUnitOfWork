@@ -1,20 +1,15 @@
 ﻿
 
 using AutoMapper;
-using GenericRepositoryUnitOfWork.Core.Constants;
 using GenericRepositoryUnitOfWork.Core.Dto;
 using GenericRepositoryUnitOfWork.Core.FilterModels;
 using GenericRepositoryUnitOfWork.Core.Helper;
-using GenericRepositoryUnitOfWork.Core.Models;
-using GenericRepositoryUnitOfWork.Core.Repository;
-using GenericRepositoryUnitOfWork.DAL.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Linq.Expressions;
-using System.Xml.Linq;
 
 namespace GenericRepositoryUnitOfWork.API.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class DepartementsController : ControllerBase

@@ -2,11 +2,12 @@
 using GenericRepositoryUnitOfWork.Core.Dto;
 using GenericRepositoryUnitOfWork.Core.FilterModels;
 using GenericRepositoryUnitOfWork.Core.Helper;
-using GenericRepositoryUnitOfWork.Core.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GenericRepositoryUnitOfWork.API.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class EmployeesController : ControllerBase
