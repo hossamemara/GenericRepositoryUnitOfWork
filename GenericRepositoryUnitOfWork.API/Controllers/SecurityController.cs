@@ -13,14 +13,17 @@ namespace GenericRepositoryUnitOfWork.API.Controllers
     {
         #region Private Fields
         private readonly IMicrosoftIdentity _microsoftIdentity;
+        private readonly ITokenService _tokenService;
         private readonly IMapper _mapper;
+        
         #endregion
 
         #region Constructor
-        public SecurityController(IMapper mapper, IMicrosoftIdentity microsoftIdentity)
+        public SecurityController(IMapper mapper, IMicrosoftIdentity microsoftIdentity, ITokenService tokenService)
         {
             _mapper = mapper;
             _microsoftIdentity = microsoftIdentity;
+            _tokenService= tokenService;
         }
         #endregion
 
@@ -38,8 +41,10 @@ namespace GenericRepositoryUnitOfWork.API.Controllers
                 {
                     var res = await _microsoftIdentity.SignUpAsync(model);
                     var data = _mapper.Map<SignUpDto>(model);
-                    if (res.Succeeded)
+                    
+                    if (res.IdentityResult.Succeeded)
                     {
+                        data.Token = res.Token;
                         return Ok(new ApiResponse<IEnumerable<SignUpDto>>
 
                         {
@@ -55,7 +60,7 @@ namespace GenericRepositoryUnitOfWork.API.Controllers
                     else
                     {
                         var errors = new List<string> { };
-                        foreach (var error in res.Errors)
+                        foreach (var error in res.IdentityResult.Errors)
                         {
                             errors.Add(error.Description);
 
@@ -120,9 +125,11 @@ namespace GenericRepositoryUnitOfWork.API.Controllers
             {
                 var res = await _microsoftIdentity.SignInAsync(model);
                 var data = _mapper.Map<SignInDto>(model);
+                
                 if(res is not null)
                 {
-                    if (res.Succeeded)
+                    data.Token = res.Token;
+                    if (res.SignInResult.Succeeded)
                         return Ok(new ApiResponse<IEnumerable<SignInDto>>
 
                         {

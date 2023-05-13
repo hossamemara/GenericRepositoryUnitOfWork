@@ -1,4 +1,5 @@
-﻿using GenericRepositoryUnitOfWork.Core.Interface;
+﻿using GenericRepositoryUnitOfWork.Core.Helper;
+using GenericRepositoryUnitOfWork.Core.Interface;
 using GenericRepositoryUnitOfWork.Core.MicrosoftIdentity;
 using GenericRepositoryUnitOfWork.Core.Models;
 using Microsoft.AspNetCore.Identity;
@@ -15,22 +16,24 @@ namespace GenericRepositoryUnitOfWork.Core.Repository
         #region Private Fields
 
         public UserManager<ApplicationUser> _userManager { get; }
+        private readonly ITokenService _tokenService;
         public SignInManager<ApplicationUser> _signInManager { get; }
 
         #endregion
 
         #region Constructor
 
-        public MicrosoftIdentityService(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        public MicrosoftIdentityService(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, ITokenService tokenService)
         {
             _signInManager = signInManager;
             _userManager = userManager;
+            _tokenService = tokenService;
         }
 
         #endregion
 
         #region SignUp
-        public async Task<IdentityResult> SignUpAsync(SignUpVM model)
+        public async Task<RegisterResponse> SignUpAsync(SignUpVM model)
         {
             var user = new ApplicationUser()
             {
@@ -48,25 +51,36 @@ namespace GenericRepositoryUnitOfWork.Core.Repository
                     zipCode = model.zipCode
                 }
             };
-
+            var token = _tokenService.CreateToken(user);
             var registerInfo = await _userManager.CreateAsync(user, model.Password);
-            return registerInfo;
+            return new RegisterResponse
+            
+            {
+                Token = token, IdentityResult = registerInfo
+            };
 
 
         }
         #endregion
 
         #region SignIn
-        public async Task<SignInResult> SignInAsync(SignInVM model)
+        public async Task<RegisterResponse> SignInAsync(SignInVM model)
         {
             var user = await _userManager.FindByEmailAsync(model.Email);
+            var token = _tokenService.CreateToken(user);
+            
             if (user is not null)
             {
                 var password = await _userManager.CheckPasswordAsync(user, model.Password);
                 if (password)
                 {
                     var userInfo = _signInManager.PasswordSignInAsync(user, model.Password, model.RememberMe, false);
-                    return userInfo.Result;
+                    return new RegisterResponse
+
+                    {
+                        Token = token,
+                        SignInResult = userInfo.Result
+                    }; 
                 }
                 else
                     return null;

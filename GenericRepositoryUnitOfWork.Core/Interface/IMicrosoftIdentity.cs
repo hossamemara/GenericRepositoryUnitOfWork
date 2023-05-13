@@ -1,4 +1,5 @@
-﻿using GenericRepositoryUnitOfWork.Core.Models;
+﻿using GenericRepositoryUnitOfWork.Core.Helper;
+using GenericRepositoryUnitOfWork.Core.Models;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -10,9 +11,10 @@ namespace GenericRepositoryUnitOfWork.Core.Interface
 {
     public interface IMicrosoftIdentity
     {
-        Task<IdentityResult> SignUpAsync(SignUpVM model);
-
-        Task<SignInResult> SignInAsync(SignInVM model);
+        Task<RegisterResponse> SignUpAsync(SignUpVM model);
+        Task<RegisterResponse> SignInAsync(SignInVM model);
         Task<dynamic> SignOutAsync();
+
+
     }
 }
