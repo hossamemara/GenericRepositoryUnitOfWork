@@ -17,5 +17,6 @@ namespace GenericRepositoryUnitOfWork.Core.Models
         [MinLength(5, ErrorMessage = "Minimum Password Length is 5")]
         public string Password { get; set; }
         public bool RememberMe { get; set; }
+
     }
 }

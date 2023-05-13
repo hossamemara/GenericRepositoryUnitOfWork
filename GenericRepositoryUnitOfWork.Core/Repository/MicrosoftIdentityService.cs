@@ -35,8 +35,18 @@ namespace GenericRepositoryUnitOfWork.Core.Repository
             var user = new ApplicationUser()
             {
                 UserName = model.Email.Split('@')[0],
+                DisplayName = model.Email.Split('@')[0],
                 Email = model.Email,
-                IsAgree = model.IsAgree
+                IsAgree = model.IsAgree,
+                Addrese = new Address
+                {
+                    FirstName = model.FirstName,
+                    LastName  = model.LastName,
+                    City = model.City,
+                    State = model.State,
+                    Street = model.Street,
+                    zipCode = model.zipCode
+                }
             };
 
             var registerInfo = await _userManager.CreateAsync(user, model.Password);

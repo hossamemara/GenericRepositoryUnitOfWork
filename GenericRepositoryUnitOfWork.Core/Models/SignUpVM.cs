@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GenericRepositoryUnitOfWork.Core.MicrosoftIdentity;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -9,6 +10,7 @@ namespace GenericRepositoryUnitOfWork.Core.Models
 {
     public class SignUpVM
     {
+
         [Required(ErrorMessage = "Email is required")]
         [EmailAddress(ErrorMessage = "Invalid Email")]
         public string Email { get; set; }
@@ -21,5 +23,11 @@ namespace GenericRepositoryUnitOfWork.Core.Models
         [MinLength(5, ErrorMessage = "Minimum Confirm Password Length is 5")]
         public string ConfirmPassword { get; set; }
         public bool IsAgree { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Street { get; set; }
+        public string City { get; set; }
+        public string State { get; set; }
+        public string zipCode { get; set; }
     }
 }

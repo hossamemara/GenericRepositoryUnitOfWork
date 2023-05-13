@@ -15,10 +15,8 @@ namespace GenericRepositoryUnitOfWork.Core.AutoMapper
             CreateMap<Employee, EmployeeDto>();
             CreateMap<EmployeeVM, Employee>();
             CreateMap<Employee, EmployeeList>();
-            
-
-
-
+            CreateMap<SignInVM, SignInDto>();
+            CreateMap<SignUpVM, SignUpDto>();
 
 
         }

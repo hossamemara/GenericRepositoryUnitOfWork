@@ -37,9 +37,10 @@ namespace GenericRepositoryUnitOfWork.API.Controllers
                 if (model.IsAgree == true)
                 {
                     var res = await _microsoftIdentity.SignUpAsync(model);
+                    var data = _mapper.Map<SignUpDto>(model);
                     if (res.Succeeded)
                     {
-                        return Ok(new ApiResponse<IEnumerable<SignUpVM>>
+                        return Ok(new ApiResponse<IEnumerable<SignUpDto>>
 
                         {
 
@@ -47,7 +48,7 @@ namespace GenericRepositoryUnitOfWork.API.Controllers
                             HttpStatusCodes = "Ok",
                             Message = "Data Retrived",
                             AffectedRows = 1,
-                            Data = model
+                            Data = data
 
                         });
                     }
@@ -118,10 +119,11 @@ namespace GenericRepositoryUnitOfWork.API.Controllers
             try
             {
                 var res = await _microsoftIdentity.SignInAsync(model);
+                var data = _mapper.Map<SignInDto>(model);
                 if(res is not null)
                 {
                     if (res.Succeeded)
-                        return Ok(new ApiResponse<IEnumerable<SignInVM>>
+                        return Ok(new ApiResponse<IEnumerable<SignInDto>>
 
                         {
 
@@ -129,7 +131,7 @@ namespace GenericRepositoryUnitOfWork.API.Controllers
                             HttpStatusCodes = "Ok",
                             Message = "Data Retrived",
                             AffectedRows = 1,
-                            Data = res
+                            Data = data
 
                         });
                     else
