@@ -118,7 +118,7 @@ namespace GenericRepositoryUnitOfWork.API.Controllers
             try
             {
                 var res = await _microsoftIdentity.SignInAsync(model);
-                if(res !=null)
+                if(res is not null)
                 {
                     if (res.Succeeded)
                         return Ok(new ApiResponse<IEnumerable<SignInVM>>
@@ -146,24 +146,21 @@ namespace GenericRepositoryUnitOfWork.API.Controllers
                 }
                 else
                 {
-                    return NotFound(new ApiResponse<string>
+                    return Unauthorized(new ApiResponse<string>
 
                     {
 
-                        StatusCode = 404,
-                        HttpStatusCodes = "NotFound",
+                        StatusCode = 401,
+                        HttpStatusCodes = "Unauthorized",
                         Message = "Invalid Email or Password",
                         Error = "Invalid Email or Password",
                         AffectedRows = 0,
                     });
                 }
-                
-                
             }
 
             catch (Exception ex)
             {
-
                 return BadRequest(new ApiResponse<string>
 
                 {

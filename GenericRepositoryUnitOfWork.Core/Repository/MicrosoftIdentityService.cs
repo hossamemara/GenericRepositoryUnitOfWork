@@ -50,7 +50,7 @@ namespace GenericRepositoryUnitOfWork.Core.Repository
         public async Task<SignInResult> SignInAsync(SignInVM model)
         {
             var user = await _userManager.FindByEmailAsync(model.Email);
-            if (user != null)
+            if (user is not null)
             {
                 var password = await _userManager.CheckPasswordAsync(user, model.Password);
                 if (password)

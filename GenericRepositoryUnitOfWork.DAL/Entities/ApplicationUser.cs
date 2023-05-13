@@ -10,5 +10,7 @@ namespace GenericRepositoryUnitOfWork.Core.MicrosoftIdentity
     public class ApplicationUser : IdentityUser
     {
         public bool IsAgree { get; set; }
+        public string DisplayName { get; set; }
+        public virtual Address Addrese { get; set; }
     }
 }
