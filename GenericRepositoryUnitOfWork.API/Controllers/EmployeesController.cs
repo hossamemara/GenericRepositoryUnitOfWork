@@ -35,7 +35,7 @@ namespace GenericRepositoryUnitOfWork.API.Controllers
         {
             try
             {
-                var data = await this._unitOfWork.Departments.MatchAll(null, filter.Take, filter.Skip, A => A.Id, filter.OrderByDirection);
+                var data = await this._unitOfWork.Employees.MatchAll(null, filter.Take, filter.Skip, A => A.Id, filter.OrderByDirection);
                 var res = _mapper.Map<IEnumerable<EmployeeDto>>(data);
                 if (res.Count() == 0)
                     return NotFound("No Data Found For Employees");

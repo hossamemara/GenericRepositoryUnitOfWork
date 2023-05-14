@@ -31,7 +31,7 @@ namespace GenericRepositoryUnitOfWork.Core.Repository
 
         #endregion
 
-        #region Department Actions
+        #region Actions
 
         #region GetAllAsync
         public async Task<IEnumerable<T>> GetAllAsync()

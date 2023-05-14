@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33424.131
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenericRepositoryUnitOfWork.API", "GenericRepositoryUnitOfWork.API\GenericRepositoryUnitOfWork.API.csproj", "{733D6AE1-8621-4F23-8572-8CFB25490167}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GenericRepositoryUnitOfWork.API", "GenericRepositoryUnitOfWork.API\GenericRepositoryUnitOfWork.API.csproj", "{733D6AE1-8621-4F23-8572-8CFB25490167}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenericRepositoryUnitOfWork.DAL", "GenericRepositoryUnitOfWork.DAL\GenericRepositoryUnitOfWork.DAL.csproj", "{E5EBF811-80F4-4D07-A3F7-A5610AF2B75C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GenericRepositoryUnitOfWork.DAL", "GenericRepositoryUnitOfWork.DAL\GenericRepositoryUnitOfWork.DAL.csproj", "{E5EBF811-80F4-4D07-A3F7-A5610AF2B75C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenericRepositoryUnitOfWork.Core", "GenericRepositoryUnitOfWork.Core\GenericRepositoryUnitOfWork.Core.csproj", "{661CDD60-AB3B-4CC9-8C48-0050DB63AC75}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GenericRepositoryUnitOfWork.Core", "GenericRepositoryUnitOfWork.Core\GenericRepositoryUnitOfWork.Core.csproj", "{661CDD60-AB3B-4CC9-8C48-0050DB63AC75}"
+EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "GenericRepositoryUnitOfWork.TS", "GenericRepositoryUnitOfWork\GenericRepositoryUnitOfWork.TS.esproj", "{A51AAF26-7820-458C-9910-60FFAD102EEE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,12 @@ Global
 		{661CDD60-AB3B-4CC9-8C48-0050DB63AC75}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{661CDD60-AB3B-4CC9-8C48-0050DB63AC75}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{661CDD60-AB3B-4CC9-8C48-0050DB63AC75}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A51AAF26-7820-458C-9910-60FFAD102EEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A51AAF26-7820-458C-9910-60FFAD102EEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A51AAF26-7820-458C-9910-60FFAD102EEE}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{A51AAF26-7820-458C-9910-60FFAD102EEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A51AAF26-7820-458C-9910-60FFAD102EEE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A51AAF26-7820-458C-9910-60FFAD102EEE}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

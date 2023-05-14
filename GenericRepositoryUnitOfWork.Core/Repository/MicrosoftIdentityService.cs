@@ -67,10 +67,11 @@ namespace GenericRepositoryUnitOfWork.Core.Repository
         public async Task<RegisterResponse> SignInAsync(SignInVM model)
         {
             var user = await _userManager.FindByEmailAsync(model.Email);
-            var token = _tokenService.CreateToken(user);
+            
             
             if (user is not null)
             {
+                var token = _tokenService.CreateToken(user);
                 var password = await _userManager.CheckPasswordAsync(user, model.Password);
                 if (password)
                 {
