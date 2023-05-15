@@ -2,10 +2,12 @@
 using GenericRepositoryUnitOfWork.Core.Interface;
 using GenericRepositoryUnitOfWork.Core.MicrosoftIdentity;
 using GenericRepositoryUnitOfWork.Core.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -101,8 +103,29 @@ namespace GenericRepositoryUnitOfWork.Core.Repository
             return null;
         }
 
+
+
         #endregion
 
+
+        #region GetCurrentUser
+        public async Task<ApplicationUser> GetCurrentUser(string? email)
+        {
+            var user =await _userManager.FindByEmailAsync(email);
+            return user;
+        }
+
+
+        #endregion
+
+        #region CheckEmailExistance
+        public async Task<bool> CheckEmailExistance(string? email)
+        {
+            return await _userManager.FindByEmailAsync(email) != null;
+
+        }
+
+        #endregion
 
 
 

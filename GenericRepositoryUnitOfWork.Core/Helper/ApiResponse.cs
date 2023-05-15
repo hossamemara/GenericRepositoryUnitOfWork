@@ -15,5 +15,8 @@ namespace GenericRepositoryUnitOfWork.Core.Helper
         public dynamic Data { get; set; }
         public int? AffectedRows { get; set; }
         public dynamic Error { get; set; }
+
+        public bool ExistanceFlag { get; set; }
+
     }
 }

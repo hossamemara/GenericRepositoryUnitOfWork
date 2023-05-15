@@ -2,8 +2,11 @@
 using GenericRepositoryUnitOfWork.Core.Dto;
 using GenericRepositoryUnitOfWork.Core.FilterModels;
 using GenericRepositoryUnitOfWork.Core.Helper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace GenericRepositoryUnitOfWork.API.Controllers
 {
@@ -187,7 +190,6 @@ namespace GenericRepositoryUnitOfWork.API.Controllers
 
         #endregion
 
-
         #region Sign Out
 
         [HttpGet("SignOutAsync")]
@@ -230,6 +232,132 @@ namespace GenericRepositoryUnitOfWork.API.Controllers
 
         #endregion
 
+        #region GetCurrentUser
+
+        [Authorize]
+        [HttpGet("GetCurrentUser")]
+        public async Task<IActionResult> GetCurrentUser()
+        {
+            try
+            {
+                var email = HttpContext.User?.Claims?.FirstOrDefault(x => x.Type == ClaimTypes.Email)?.Value;
+                if (email is not null)
+                {
+                    var user = await _microsoftIdentity.GetCurrentUser(email);
+                    var data = new UserDto
+                    {
+                        DisplayName = user.DisplayName,
+                        Email = user.Email,
+                        Token = _tokenService.CreateToken(user)
+                    };
+
+                    return Ok(new ApiResponse<IEnumerable<UserDto>>
+
+                    {
+
+                        StatusCode = 200,
+                        HttpStatusCodes = "Ok",
+                        Message = "Data Retrived",
+                        AffectedRows = 1,
+                        Data = data
+
+                    });
+                }
+
+                else
+                {
+                    return NotFound(new ApiResponse<string>
+
+                    {
+
+
+                        StatusCode = 404,
+                        HttpStatusCodes = "Not Found",
+                        Message = "Email Not Exists",
+                        AffectedRows = 0,
+                        Error = "Email Not Exists"
+                    });
+                }
+
+            }
+
+            catch (Exception ex)
+            {
+                return BadRequest(new ApiResponse<string>
+
+                {
+
+                    StatusCode = 400,
+                    HttpStatusCodes = "BadRequest",
+                    Message = ex.Message,
+                    Error = ex.Message,
+                    AffectedRows = 0
+                });
+            }
+
+        }
+
+        #endregion
+
+        #region CheckEmail Existance
+        [Authorize]
+        [HttpGet("CheckEmailExistance")]
+        public async Task<IActionResult> CheckEmailExistance([FromQuery] string? email)
+        {
+
+            try
+            {
+                var res = await _microsoftIdentity.CheckEmailExistance(email);
+                if (res == true)
+                {
+                    return Ok(new ApiResponse<IEnumerable<string>>
+
+                    {
+
+                        StatusCode = 200,
+                        HttpStatusCodes = "Ok",
+                        Message = "Data Retrived",
+                        AffectedRows = 1,
+                        ExistanceFlag = res
+
+                    });
+                }
+                else
+                {
+                    return NotFound(new ApiResponse<string>
+
+                    {
+
+
+                        StatusCode = 404,
+                        HttpStatusCodes = "Not Found",
+                        Message = "Email Not Exists",
+                        AffectedRows = 0,
+                        Error = "Email Not Exists",
+                        ExistanceFlag = res
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new ApiResponse<string>
+
+                {
+
+                    StatusCode = 400,
+                    HttpStatusCodes = "BadRequest",
+                    Message = ex.Message,
+                    Error = ex.Message,
+                    AffectedRows = 0
+                });
+            }
+
+
+
+
+        }
+
+        #endregion
         #endregion
 
     }

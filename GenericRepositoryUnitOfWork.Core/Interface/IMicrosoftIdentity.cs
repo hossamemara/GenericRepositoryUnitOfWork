@@ -1,4 +1,5 @@
 ﻿using GenericRepositoryUnitOfWork.Core.Helper;
+using GenericRepositoryUnitOfWork.Core.MicrosoftIdentity;
 using GenericRepositoryUnitOfWork.Core.Models;
 using Microsoft.AspNetCore.Identity;
 using System;
@@ -14,6 +15,8 @@ namespace GenericRepositoryUnitOfWork.Core.Interface
         Task<RegisterResponse> SignUpAsync(SignUpVM model);
         Task<RegisterResponse> SignInAsync(SignInVM model);
         Task<dynamic> SignOutAsync();
+        Task<ApplicationUser> GetCurrentUser(string? email);
+        Task<bool> CheckEmailExistance(string? email);
 
 
     }
