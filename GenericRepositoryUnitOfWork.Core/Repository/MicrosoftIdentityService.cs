@@ -1,7 +1,9 @@
-﻿using GenericRepositoryUnitOfWork.Core.Helper;
+﻿using GenericRepositoryUnitOfWork.Core.Dto;
+using GenericRepositoryUnitOfWork.Core.Helper;
 using GenericRepositoryUnitOfWork.Core.Interface;
 using GenericRepositoryUnitOfWork.Core.MicrosoftIdentity;
 using GenericRepositoryUnitOfWork.Core.Models;
+using GenericRepositoryUnitOfWork.Core.UserManagerExtensions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using System;
@@ -34,6 +36,8 @@ namespace GenericRepositoryUnitOfWork.Core.Repository
 
         #endregion
 
+        #region Services
+
         #region SignUp
         public async Task<RegisterResponse> SignUpAsync(SignUpVM model)
         {
@@ -46,7 +50,7 @@ namespace GenericRepositoryUnitOfWork.Core.Repository
                 Addrese = new Address
                 {
                     FirstName = model.FirstName,
-                    LastName  = model.LastName,
+                    LastName = model.LastName,
                     City = model.City,
                     State = model.State,
                     Street = model.Street,
@@ -56,9 +60,10 @@ namespace GenericRepositoryUnitOfWork.Core.Repository
             var token = _tokenService.CreateToken(user);
             var registerInfo = await _userManager.CreateAsync(user, model.Password);
             return new RegisterResponse
-            
+
             {
-                Token = token, IdentityResult = registerInfo
+                Token = token,
+                IdentityResult = registerInfo
             };
 
 
@@ -69,8 +74,8 @@ namespace GenericRepositoryUnitOfWork.Core.Repository
         public async Task<RegisterResponse> SignInAsync(SignInVM model)
         {
             var user = await _userManager.FindByEmailAsync(model.Email);
-            
-            
+
+
             if (user is not null)
             {
                 var token = _tokenService.CreateToken(user);
@@ -83,7 +88,7 @@ namespace GenericRepositoryUnitOfWork.Core.Repository
                     {
                         Token = token,
                         SignInResult = userInfo.Result
-                    }; 
+                    };
                 }
                 else
                     return null;
@@ -107,12 +112,11 @@ namespace GenericRepositoryUnitOfWork.Core.Repository
 
         #endregion
 
-
         #region GetCurrentUser
-        public async Task<ApplicationUser> GetCurrentUser(string? email)
+        public async Task<ApplicationUser> GetCurrentUser(ClaimsPrincipal user)
         {
-            var user =await _userManager.FindByEmailAsync(email);
-            return user;
+            var userInfo = await _userManager.GetUserByClaimPrinciple(user);
+            return userInfo;
         }
 
 
@@ -126,6 +130,27 @@ namespace GenericRepositoryUnitOfWork.Core.Repository
         }
 
         #endregion
+
+        #region GetCurrentUserAddress
+        public async Task<Address> GetCurrentUserAddress(ClaimsPrincipal user)
+        {
+            var userInfo = await _userManager.GetUserAddressByClaimPrinciple(user);
+            return userInfo;
+        }
+        #endregion
+
+        #region UpdateCurrentUserAddress
+        public async Task<IdentityResult> UpdateCurrentUserAddress(ApplicationUser address)
+        {
+            var userInfo = await _userManager.UpdateAsync(address);
+            return userInfo;
+        }
+
+        #endregion
+
+
+        #endregion
+
 
 
 

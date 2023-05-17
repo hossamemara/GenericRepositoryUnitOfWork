@@ -2,6 +2,7 @@
 using GenericRepositoryUnitOfWork.Core.Dto;
 using GenericRepositoryUnitOfWork.Core.FilterModels;
 using GenericRepositoryUnitOfWork.Core.Helper;
+using GenericRepositoryUnitOfWork.Core.MicrosoftIdentity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -10,6 +11,7 @@ using System.Security.Claims;
 
 namespace GenericRepositoryUnitOfWork.API.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class SecurityController : ControllerBase
@@ -34,7 +36,7 @@ namespace GenericRepositoryUnitOfWork.API.Controllers
 
 
         #region SignUp
-
+        [AllowAnonymous]
         [HttpPost("SignUpAsync")]
         public async Task<IActionResult> SignUpAsync(SignUpVM model)
         {
@@ -120,7 +122,7 @@ namespace GenericRepositoryUnitOfWork.API.Controllers
         #endregion
 
         #region SignIn
-
+        [AllowAnonymous]
         [HttpPost("SignInAsync")]
         public async Task<IActionResult> SignInAsync(SignInVM model)
         {
@@ -191,7 +193,7 @@ namespace GenericRepositoryUnitOfWork.API.Controllers
         #endregion
 
         #region Sign Out
-
+        [AllowAnonymous]
         [HttpGet("SignOutAsync")]
         public async Task<IActionResult> SignOutAsync()
         {
@@ -234,22 +236,17 @@ namespace GenericRepositoryUnitOfWork.API.Controllers
 
         #region GetCurrentUser
 
-        [Authorize]
         [HttpGet("GetCurrentUser")]
         public async Task<IActionResult> GetCurrentUser()
         {
             try
             {
-                var email = HttpContext.User?.Claims?.FirstOrDefault(x => x.Type == ClaimTypes.Email)?.Value;
-                if (email is not null)
+                var user = await _microsoftIdentity.GetCurrentUser(HttpContext.User);
+                if (user is not null)
                 {
-                    var user = await _microsoftIdentity.GetCurrentUser(email);
-                    var data = new UserDto
-                    {
-                        DisplayName = user.DisplayName,
-                        Email = user.Email,
-                        Token = _tokenService.CreateToken(user)
-                    };
+                    var data = _mapper.Map<UserDto>(user);
+                    data.Token = _tokenService.CreateToken(user);
+                    
 
                     return Ok(new ApiResponse<IEnumerable<UserDto>>
 
@@ -300,7 +297,8 @@ namespace GenericRepositoryUnitOfWork.API.Controllers
         #endregion
 
         #region CheckEmail Existance
-        [Authorize]
+        
+        
         [HttpGet("CheckEmailExistance")]
         public async Task<IActionResult> CheckEmailExistance([FromQuery] string? email)
         {
@@ -358,6 +356,131 @@ namespace GenericRepositoryUnitOfWork.API.Controllers
         }
 
         #endregion
+
+        #region GetCurrentUserAddress
+
+        [HttpGet("GetCurrentUserAddress")]
+        public async Task<IActionResult> GetCurrentUserAddress()
+        {
+            try
+            {
+               
+                var user = await _microsoftIdentity.GetCurrentUserAddress(HttpContext.User);
+                if (user is not null)
+                {
+                    var data = _mapper.Map<UserAddressDto>(user);
+                    
+                    return Ok(new ApiResponse<IEnumerable<UserAddressDto>>
+
+                    {
+
+                        StatusCode = 200,
+                        HttpStatusCodes = "Ok",
+                        Message = "Data Retrived",
+                        AffectedRows = 1,
+                        Data = data
+
+                    });
+                }
+
+                else
+                {
+                    return NotFound(new ApiResponse<string>
+
+                    {
+
+
+                        StatusCode = 404,
+                        HttpStatusCodes = "Not Found",
+                        Message = "Email Not Exists",
+                        AffectedRows = 0,
+                        Error = "Email Not Exists"
+                    });
+                }
+
+            }
+
+            catch (Exception ex)
+            {
+                return BadRequest(new ApiResponse<string>
+
+                {
+
+                    StatusCode = 400,
+                    HttpStatusCodes = "BadRequest",
+                    Message = ex.Message,
+                    Error = ex.Message,
+                    AffectedRows = 0
+                });
+            }
+
+        }
+        #endregion
+
+        #region UpdateCurrentUserAddress
+
+        [HttpPut("UpdateCurrentUserAddress")]
+        public async Task<IActionResult> UpdateCurrentUserAddress(UserAddressDto model)
+        {
+            try
+            {
+
+                var user = await _microsoftIdentity.GetCurrentUser(HttpContext.User);
+
+                if (user is not null)
+                {
+                    user.Addrese = _mapper.Map<UserAddressDto, Address>(model);
+                 
+                    var res =await _microsoftIdentity.UpdateCurrentUserAddress(user);
+                    return Ok(new ApiResponse<IEnumerable<UserAddressDto>>
+
+                    {
+
+                        StatusCode = 200,
+                        HttpStatusCodes = "Ok",
+                        Message = "Data Retrived",
+                        AffectedRows = 1,
+                        Data = model
+
+                    });
+                }
+
+                else
+                {
+                    return NotFound(new ApiResponse<string>
+
+                    {
+
+
+                        StatusCode = 404,
+                        HttpStatusCodes = "Not Found",
+                        Message = "Email Not Exists",
+                        AffectedRows = 0,
+                        Error = "Email Not Exists"
+                    });
+                }
+
+            }
+
+            catch (Exception ex)
+            {
+                return BadRequest(new ApiResponse<string>
+
+                {
+
+                    StatusCode = 400,
+                    HttpStatusCodes = "BadRequest",
+                    Message = ex.Message,
+                    Error = ex.Message,
+                    AffectedRows = 0
+                });
+            }
+
+        }
+        #endregion
+
+
+
         #endregion
 
     }
