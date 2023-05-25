@@ -305,6 +305,7 @@ namespace GenericRepositoryUnitOfWork.API.Controllers
 
             try
             {
+                
                 var res = await _microsoftIdentity.CheckEmailExistance(email);
                 if (res == true)
                 {
