@@ -103,7 +103,7 @@ namespace GenericRepositoryUnitOfWork.API.Controllers
 
             catch (Exception ex)
             {
-
+                
                 return BadRequest(new ApiResponse<string>
 
                 {

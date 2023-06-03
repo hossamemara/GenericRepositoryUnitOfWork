@@ -21,7 +21,12 @@ namespace GenericRepositoryUnitOfWork.Core.Interface
         Task<bool> CheckEmailExistance(string? email);
         Task<Address> GetCurrentUserAddress(ClaimsPrincipal user);
         Task<IdentityResult> UpdateCurrentUserAddress(ApplicationUser address);
+        // FindByIdAsync   string Id 
+        // Edit User   string id , user to edit 
+        // Delete User   string id 
+
 
 
     }
 }
+
