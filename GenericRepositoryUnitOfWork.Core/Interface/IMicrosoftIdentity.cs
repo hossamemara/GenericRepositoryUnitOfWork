@@ -25,6 +25,7 @@ namespace GenericRepositoryUnitOfWork.Core.Interface
         // Edit User   string id , user to edit 
         // Delete User   string id 
         // Need To Create User Controller & Roles Controller
+        // List All Users With Assigned Roles
 
 
 
