@@ -4,11 +4,7 @@
 
 using GenericRepositoryUnitOfWork.Core.AutoMapper;
 using GenericRepositoryUnitOfWork.Core.DependencyInjection;
-using GenericRepositoryUnitOfWork.Core.MicrosoftIdentity;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.OpenApi.Models;
-using System;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
