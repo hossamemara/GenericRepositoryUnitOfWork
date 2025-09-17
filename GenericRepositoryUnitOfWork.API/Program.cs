@@ -40,8 +40,8 @@ builder.Services.AddSwaggerGen(s=> {
         }
     };
     s.AddSecurityDefinition("Bearer", securitySchema);
-    var securityRequirment = new OpenApiSecurityRequirement { { securitySchema,new[] {"Bearer" } } };
-    s.AddSecurityRequirement(securityRequirment);
+    var securityRequirement = new OpenApiSecurityRequirement { { securitySchema,new[] {"Bearer" } } };
+    s.AddSecurityRequirement(securityRequirement);
 
 });
 
