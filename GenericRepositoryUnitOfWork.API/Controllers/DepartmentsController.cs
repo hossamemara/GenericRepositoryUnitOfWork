@@ -12,7 +12,7 @@ namespace GenericRepositoryUnitOfWork.API.Controllers
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class DepartementsController : ControllerBase
+    public class DepartmentsController : ControllerBase
     {
         #region Private Fields
         private readonly IUnitOfWork _unitOfWork;
@@ -20,7 +20,7 @@ namespace GenericRepositoryUnitOfWork.API.Controllers
         #endregion
 
         #region Constructor
-        public DepartementsController(IUnitOfWork unitOfWork, IMapper mapper)
+        public DepartmentsController(IUnitOfWork unitOfWork, IMapper mapper)
         {
             this._unitOfWork = unitOfWork;
             _mapper = mapper;
