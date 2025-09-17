@@ -306,7 +306,7 @@ namespace GenericRepositoryUnitOfWork.API.Controllers
             try
             {
                 
-                var res = await _microsoftIdentity.CheckEmailExistance(email);
+                var res = await _microsoftIdentity.CheckEmailExistences(email);
                 if (res == true)
                 {
                     return Ok(new ApiResponse<IEnumerable<string>>

@@ -18,7 +18,7 @@ namespace GenericRepositoryUnitOfWork.Core.Interface
         Task<RegisterResponse> SignInAsync(SignInVM model);
         Task<dynamic> SignOutAsync();
         Task<ApplicationUser> GetCurrentUser(ClaimsPrincipal user);
-        Task<bool> CheckEmailExistance(string? email);
+        Task<bool> CheckEmailExistences(string? email);
         Task<Address> GetCurrentUserAddress(ClaimsPrincipal user);
         Task<IdentityResult> UpdateCurrentUserAddress(ApplicationUser address);
         // FindByIdAsync   string Id 

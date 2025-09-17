@@ -123,7 +123,7 @@ namespace GenericRepositoryUnitOfWork.Core.Repository
         #endregion
 
         #region CheckEmailExistance
-        public async Task<bool> CheckEmailExistance(string? email)
+        public async Task<bool> CheckEmailExistences(string? email)
         {
             return await _userManager.FindByEmailAsync(email) != null;
 
